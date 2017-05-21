@@ -52,6 +52,19 @@ class Onboard():
 
         return False
 
+    #check for tie game by looking into cells
+    #we check for tie after win coz the board can be full
+    #but there's win space.
+    def tie_game(self):
+        used_boxes = 0
+        for cell in self.cells:
+            if cell != " ":
+                used_boxes +=1
+            if used_boxes == 9:
+                return True
+            else:
+                return False
+
 
     #function for resetting the game:
     def reset(self):
@@ -80,7 +93,7 @@ def refresh_screen():
 while True:
     refresh_screen()
 
-    #PLAYER x
+    #PLAYER X
     #Gets x input from player to start first with X for python 2.7 use (raw_input)
     x_choice = int(input("\nX) Please choose number 1 - 9. >"))
     #create a method to update the takes two args the choice &
@@ -89,7 +102,7 @@ while True:
     #refresh screen
     refresh_screen()
 
-    #check for winner X and ask your to play again
+    #check for winner for player X and ask your to play again
     if board.winner("X"):
         print("\nCongrats X Wins!!")
         play_again = input("Would you like to play again? (Y/N) > ").upper()
@@ -99,9 +112,9 @@ while True:
         else:
             break
 
-    #check for winner O and ask your to play again
-    if board.winner("O"):
-        print("\nCongrats O Wins!!")
+    #check for tie game for player X and ask your to play again
+    if board.tie_game():
+        print("\nSorry The Game is Tie! \n")
         play_again = input("Would you like to play again? (Y/N) > ").upper()
         if play_again == "Y":
             board.reset()
@@ -115,3 +128,27 @@ while True:
     #Gets O input from player Two to start first with O
     o_choice = int(input("\nO) Please choose number 1 - 9. >"))
     board.update_box(o_choice, "O")
+
+    #refresh screen
+    refresh_screen()
+
+    #check for winner O and ask your to play again
+    if board.winner("O"):
+        print("\nCongrats O Wins!!")
+        play_again = input("Would you like to play again? (Y/N) > ").upper()
+        if play_again == "Y":
+            board.reset()
+            continue
+        else:
+            break
+
+
+    #check for tie game for player O and ask your to play again
+    if board.tie_game():
+        print("\nSorry The Game is Tie! \n")
+        play_again = input("Would you like to play again? (Y/N) > ").upper()
+        if play_again == "Y":
+            board.reset()
+            continue
+        else:
+            break
