@@ -54,16 +54,18 @@ class Onboard():
 
     #check for tie game by looking into cells
     #we check for tie after win coz the board can be full
-    #but there's win space.
+    #but there's no win space.
+    #we check for each cell if is fill wen all 9 are filled and no winner
+    #we assume is a tie
     def tie_game(self):
         used_boxes = 0
         for cell in self.cells:
             if cell != " ":
-                used_boxes +=1
-            if used_boxes == 9:
-                return True
-            else:
-                return False
+                used_boxes += 1
+        if used_boxes == 9:
+            return True
+        else:
+            return False
 
 
     #function for resetting the game:
@@ -104,7 +106,7 @@ while True:
 
     #check for winner for player X and ask your to play again
     if board.winner("X"):
-        print("\nCongrats X Wins!!")
+        print("\nCongrats X Wins!!\n")
         play_again = input("Would you like to play again? (Y/N) > ").upper()
         if play_again == "Y":
             board.reset()
@@ -141,7 +143,6 @@ while True:
             continue
         else:
             break
-
 
     #check for tie game for player O and ask your to play again
     if board.tie_game():
