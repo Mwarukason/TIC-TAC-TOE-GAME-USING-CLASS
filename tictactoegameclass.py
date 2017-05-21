@@ -23,34 +23,18 @@ class Onboard():
         if self.cells[cell_no] == " ": #prevent value override
             self.cells[cell_no] = player
 
-    #function for winner X:
+    #function for winner in a loop wise to reduce number of codes lines:
     def winner(self, player):
-        #check for first row:
-        if self.cells[1] == player and self.cells[2] == player and self.cells[3] == player:
-            return True
-        #check for second row:
-        if self.cells[4] == player and self.cells[5] == player and self.cells[6] == player:
-            return True
-        #check for third row:
-        if self.cells[7] == player and self.cells[8] == player and self.cells[9] == player:
-            return True
-        #check for fourth row:
-        if self.cells[1] == player and self.cells[4] == player and self.cells[7] == player:
-            return True
-        #check for five row:
-        if self.cells[2] == player and self.cells[5] == player and self.cells[8] == player:
-            return True
-        #check for sixth row:
-        if self.cells[3] == player and self.cells[6] == player and self.cells[9] == player:
-            return True
-        #check for seventh row:
-        if self.cells[1] == player and self.cells[5] == player and self.cells[9] == player:
-            return True
-        #check for eight row:
-        if self.cells[3] == player and self.cells[5] == player and self.cells[7] == player:
-            return True
+        for bigloop in [[1,2,3],[4,5,6],[7,8,9],[1,4,7],[2,5,8],[3,6,9],[1,5,9],[3,5,7]]:
+            result = True
+            for cell_no in bigloop:
+                if self.cells[cell_no] != player:
+                    result = False
 
+            if result == True:
+                    return True
         return False
+
 
     #check for tie game by looking into cells
     #we check for tie after win coz the board can be full
@@ -67,10 +51,27 @@ class Onboard():
         else:
             return False
 
-
     #function for resetting the game:
     def reset(self):
         self.cells = [" ", " ", " ", " ", " ", " ", " ", " ", " ", " "]
+
+    #create a machine to play with a user:
+    def machine_ai(self, player):
+        #choose center for ai to start by default.
+        if self.cells[5] == " ":
+            self.update_box(5,player)
+
+            #Possible Wins
+        #AI to win
+
+        #AI Blocks
+
+        #AI Choose Random boxes which are empty
+        #from first box until the last box
+        for i in range(1,10):
+            if self.cells[i] == " ":
+                self.update_box(i, player)
+                break
 
 #create instance of Onboad class outside to dispay the values
 board = Onboard()
@@ -97,7 +98,7 @@ while True:
 
     #PLAYER X
     #Gets x input from player to start first with X for python 2.7 use (raw_input)
-    x_choice = int(input("\nX) Please choose number 1 - 9. >"))
+    x_choice = int(input("\nPlayer X) Please choose number 1 - 9. >"))
     #create a method to update the takes two args the choice &
     board.update_box(x_choice, "X")
 
@@ -128,11 +129,17 @@ while True:
     #We need to refresh for value to be stored in memory b4 2nd player player
     refresh_screen()
     #Gets O input from player Two to start first with O
-    o_choice = int(input("\nO) Please choose number 1 - 9. >"))
-    board.update_box(o_choice, "O")
+    #o_choice = int(input("\nO) Please choose number 1 - 9. >"))
 
-    #refresh screen
+    #change to ai  instead of O player by using method update_box
+    board.machine_ai("O")
+
+    #after ai choose need to refresh screen
     refresh_screen()
+
+    #update boxes
+    #board.update_box(o_choice, "O")
+
 
     #check for winner O and ask your to play again
     if board.winner("O"):
